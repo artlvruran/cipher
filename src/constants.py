@@ -29,3 +29,5 @@ frequencies = {
 
 en_alphabet = "abcdefghijklmnopqrstuvwxyz"
 rus_alphabet = "абвгдеёжзиклмнопрстуфхцчшщъыьэюя"
+
+end_of_message = "1000011001101011110110010111011101100100100110100101100011"

@@ -62,7 +62,6 @@ class CaesarHacker:
         return encryption_key
 
 
-
     def hack(self, text: str, key: int) -> str:
         encryption_key = self.break_cipher(text)
         crypter = CaesarCrypter(key, self.mode)
