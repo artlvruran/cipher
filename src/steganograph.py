@@ -3,11 +3,13 @@ from src.constants import end_of_message
 
 
 class Steganograph(ABC):
-    path: str
+    input_path: str
+    output_path: str
 
     @abstractmethod
-    def __init__(self, path: str):
-        ...
+    def __init__(self, input_path: str, output_path: str):
+        self.input_path = input_path
+        self.output_path = output_path
 
     @staticmethod
     def byte_string(message: str) -> str:

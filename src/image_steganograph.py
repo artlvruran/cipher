@@ -7,43 +7,47 @@ from src.constants import end_of_message
 
 
 class ImageSteganograph(Steganograph):
-    image: Image
-    draw: ImageDraw
-    pixels: Image
-    width: int
-    height: int
 
-    def __init__(self, path: str):
-        self.image = Image.open(path)
-        self.draw = ImageDraw.Draw(self.image)
-        self.width = self.image.size[0]
-        self.height = self.image.size[1]
-        self.pixels = self.image.load()
-        self.path = path
+    def __init__(self, input_path: str, output_path: str):
+        super().__init__(input_path, output_path)
 
     def modify_pixels(self, message: str):
+
+        image = Image.open(self.input_path)
+        draw = ImageDraw.Draw(image)
+        width = image.size[0]
+        height = image.size[1]
+        pixels = image.load()
+
         not_encoded = len(message)
-        for i in range(self.width):
-            for j in range(self.height):
-                r, g, b = self.pixels[i, j]
+        for i in range(width):
+            for j in range(height):
+                r, g, b = pixels[i, j]
                 for number, color in enumerate([r, g, b]):
                     if not_encoded > 0:
-                        self.pixels[i, j] = self.pixels[i, j][:number] + \
-                                            (int(bin(color)[2:-1] + message[len(message) - not_encoded], 2),) + \
-                                            self.pixels[i, j][number + 1:]
-                        self.draw.point((i, j), self.pixels[i, j])
+                        pixels[i, j] = pixels[i, j][:number] + \
+                                        (int(bin(color)[2:-1] + message[len(message) - not_encoded], 2),) + \
+                                        pixels[i, j][number + 1:]
+                        draw.point((i, j), pixels[i, j])
                         not_encoded -= 1
-        self.image.save(self.path[:self.path.rfind('.')] + '(1)' + self.path[self.path.rfind('.'):])
+        image.save(self.output_path)
 
     def encrypt(self, message: str):
         byte_message = self.byte_string(message)
         self.modify_pixels(byte_message)
 
     def decrypt(self) -> str:
+
+        image = Image.open(self.input_path)
+        draw = ImageDraw.Draw(image)
+        width = image.size[0]
+        height = image.size[1]
+        pixels = image.load()
+
         message_data = ''
-        for i in range(self.width):
-            for j in range(self.height):
-                r, g, b = self.pixels[i, j]
+        for i in range(width):
+            for j in range(height):
+                r, g, b = pixels[i, j]
                 for color in [r, g, b]:
                     message_data += bin(color)[-1]
                     if len(message_data) >= len(end_of_message):

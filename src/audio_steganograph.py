@@ -4,12 +4,10 @@ import wave
 
 
 class AudioSteganograph(Steganograph):
-    input_path: str
-    output_path: str
+
 
     def __init__(self, input_path: str, output_path: str):
-        self.input_path = input_path
-        self.output_path = output_path
+        super().__init__(input_path, output_path)
 
     def modify_audio(self, message: str):
         audio = wave.open(self.input_path, mode='rb')
