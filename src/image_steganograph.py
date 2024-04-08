@@ -32,14 +32,14 @@ class ImageSteganograph(Steganograph):
                         not_encoded -= 1
         image.save(self.output_path)
 
-    def encrypt(self, message: str):
+    def encode(self, message: str):
+        message = message.replace(' ', '_')
         byte_message = self.byte_string(message)
         self.modify_pixels(byte_message)
 
-    def decrypt(self) -> str:
+    def decode(self) -> str:
 
         image = Image.open(self.input_path)
-        draw = ImageDraw.Draw(image)
         width = image.size[0]
         height = image.size[1]
         pixels = image.load()
