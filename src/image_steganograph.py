@@ -12,7 +12,6 @@ class ImageSteganograph(Steganograph):
     pixels: Image
     width: int
     height: int
-    path: str
 
     def __init__(self, path: str):
         self.image = Image.open(path)
@@ -21,12 +20,6 @@ class ImageSteganograph(Steganograph):
         self.height = self.image.size[1]
         self.pixels = self.image.load()
         self.path = path
-
-    @staticmethod
-    def byte_string(message: str) -> str:
-        bytestring = ''.join([bin(ord(char))[2:] for char in message])
-        bytestring += end_of_message
-        return bytestring
 
     def modify_pixels(self, message: str):
         not_encoded = len(message)
@@ -45,9 +38,6 @@ class ImageSteganograph(Steganograph):
     def encrypt(self, message: str):
         byte_message = self.byte_string(message)
         self.modify_pixels(byte_message)
-
-    def get_message(self, byte_string: str) -> str:
-        return ''.join([chr(int(byte_string[i:i+7], 2)) for i in range(0, len(byte_string), 7)])
 
     def decrypt(self) -> str:
         message_data = ''
