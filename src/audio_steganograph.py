@@ -5,7 +5,6 @@ import wave
 
 class AudioSteganograph(Steganograph):
 
-
     def __init__(self, input_path: str, output_path: str):
         super().__init__(input_path, output_path)
 
@@ -23,11 +22,12 @@ class AudioSteganograph(Steganograph):
         audio.close()
         output.close()
 
-    def encrypt(self, message: str):
+    def encode(self, message: str):
+        message = message.replace(' ', '_')
         byte_message = self.byte_string(message)
         self.modify_audio(byte_message)
 
-    def decrypt(self) -> str:
+    def decode(self) -> str:
         audio = wave.open(self.input_path, mode='rb')
         frame_bytes = bytearray(list(audio.readframes(audio.getnframes())))
         least_significant_bits = [byte & 1 for byte in frame_bytes]
@@ -41,4 +41,3 @@ class AudioSteganograph(Steganograph):
                     return self.get_message(byte_string[:-len(end_of_message)])
 
         return self.get_message(byte_string[:-len(end_of_message)])
-

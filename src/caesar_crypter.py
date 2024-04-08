@@ -17,8 +17,11 @@ class CaesarCrypter(Crypter):
     def encrypt(self, text: str) -> str:
         result = ''
         for char in text:
-            if char in self.alphabet:
-                result += self.alphabet[(self.positions[char] + self.offset) % len(self.alphabet)]
+            if char.lower() in self.alphabet:
+                if char.isupper():
+                    result += self.alphabet[(self.positions[char.lower()] + self.offset) % len(self.alphabet)].upper()
+                else:
+                    result += self.alphabet[(self.positions[char] + self.offset) % len(self.alphabet)]
             else:
                 result += char
         return result
