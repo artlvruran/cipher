@@ -29,8 +29,22 @@ class MyWindow(QMainWindow, Ui_MainWindow):
         self.messageEdit.hide()
         self.messageLabel.hide()
 
+        self.typeRadioGroup = QButtonGroup(self)
+
         self.radioCrypto.clicked.connect(self.crypto_clicked)
         self.radioStega.clicked.connect(self.stega_clicked)
+        self.typeRadioGroup.addButton(self.radioCrypto)
+        self.typeRadioGroup.addButton(self.radioStega)
+
+        self.cipherRadioGroup = QButtonGroup(self)
+
+        self.radioCaesar.clicked.connect(self.caesar)
+        self.radioVernam.clicked.connect(self.vernam)
+        self.radioVigenere.clicked.connect(self.vigenere)
+        self.cipherRadioGroup.addButton(self.radioCaesar)
+        self.cipherRadioGroup.addButton(self.radioVernam)
+        self.cipherRadioGroup.addButton(self.radioVigenere)
+        self.radioCaesar.setChecked(True)
 
         self.SelectFileButton.clicked.connect(self.select_file)
 
@@ -60,6 +74,18 @@ class MyWindow(QMainWindow, Ui_MainWindow):
 
         self.keyLabel.hide()
         self.keyEdit.hide()
+
+    def caesar(self):
+        self.radioVernam.setChecked(False)
+        self.radioVigenere.setChecked(False)
+
+    def vernam(self):
+        self.radioCaesar.setChecked(False)
+        self.radioVigenere.setChecked(False)
+
+    def vigenere(self):
+        self.radioVernam.setChecked(False)
+        self.radioCaesar.setChecked(False)
 
     def select_file(self):
         if self.radioStega.isChecked():
@@ -93,10 +119,19 @@ class MyWindow(QMainWindow, Ui_MainWindow):
 
     def decode(self):
         self.outputFileName = self.filenameEdit.text()
+
+        cipher: str
+        if self.radioCaesar.isChecked():
+            cipher = 'caesar'
+        elif self.radioVernam.isChecked():
+            cipher = 'vernam'
+        elif self.radioVigenere.isChecked():
+            cipher = 'vigenere'
+
         if self.fileType in ['txt']:
             result = os.popen(f"python cipher.py --mode=decode"
                               f"                 --type=text"
-                              f"                 --cipher={'caesar'} "
+                              f"                 --cipher={cipher} "
                               f"                 --key={5}"
                               f"                 --input='{self.inputFileName}'"
                               f"                 --output='{self.outputFileName}'").read()

@@ -8,8 +8,10 @@ import random
 class VernamCrypter(Crypter):
     key = ''
 
+    def __init__(self, key: str):
+        self.key = key
+
     def encrypt(self, text: str) -> str:
-        byte_string = Steganograph.byte_string(text)
         if self.key == '':
             self.key = [chr(random.randint(0, 255)) for _ in range(len(text))]
         result = ''
@@ -17,7 +19,7 @@ class VernamCrypter(Crypter):
             if ord(text[i]) <= 255:
                 result += ord(text[i]) ^ ord(self.key[i])
             else:
-                result += text[i];
+                result += text[i]
         return result
 
     def decrypt(self, text: str) -> str:

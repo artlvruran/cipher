@@ -7,7 +7,7 @@ class CaesarCrypter(Crypter):
     alphabet: str
     positions: dict
 
-    def __init__(self, offset: int, alphabet: str):
+    def __init__(self, offset: int, alphabet: str = en_alphabet):
         self.offset = offset
         self.alphabet = alphabet
         self.positions = dict()
