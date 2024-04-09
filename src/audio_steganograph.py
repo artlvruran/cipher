@@ -23,7 +23,6 @@ class AudioSteganograph(Steganograph):
         output.close()
 
     def encode(self, message: str):
-        message = message.replace(' ', '_')
         byte_message = self.byte_string(message)
         self.modify_audio(byte_message)
 

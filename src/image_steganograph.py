@@ -33,7 +33,6 @@ class ImageSteganograph(Steganograph):
         image.save(self.output_path)
 
     def encode(self, message: str):
-        message = message.replace(' ', '_')
         byte_message = self.byte_string(message)
         self.modify_pixels(byte_message)
 

@@ -10,13 +10,13 @@ class Steganograph(DecoderTool):
 
     @staticmethod
     def byte_string(message: str) -> str:
-        bytestring = ''.join([bin(ord(char))[2:] for char in message])
+        bytestring = ''.join([bin(ord(char))[2:].rjust(16, '0') for char in message])
         bytestring += end_of_message
         return bytestring
 
     @staticmethod
     def get_message(byte_string: str) -> str:
-        return ''.join([chr(int(byte_string[i:i+7], 2)) for i in range(0, len(byte_string), 7)])
+        return ''.join([chr(int(byte_string[i:i+16], 2)) for i in range(0, len(byte_string), 16)])
 
     @abstractmethod
     def encode(self, message: str):

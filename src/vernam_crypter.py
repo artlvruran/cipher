@@ -11,3 +11,4 @@ class VernamCrypter(Crypter):
         result = ''
         for char in text:
             ...
+# TODO
