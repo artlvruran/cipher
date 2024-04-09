@@ -7,7 +7,6 @@ class Crypter(ABC):
     def encrypt(self, text: str) -> str:
         ...
 
-
     @abstractmethod
     def decrypt(self, text: str) -> str:
         ...
