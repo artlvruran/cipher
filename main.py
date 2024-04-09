@@ -3,6 +3,7 @@ import os
 import subprocess
 from PyQt6.QtWidgets import *
 from PyQt6 import *
+from PyQt6.QtGui import QFont, QFontDatabase
 from mainwindow import Ui_MainWindow
 from src.text_file_decoder import TextFileDecoder
 from src.audio_steganograph import AudioSteganograph
@@ -17,6 +18,10 @@ class MyWindow(QMainWindow, Ui_MainWindow):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
+
+        id = QFontDatabase.addApplicationFont("static/SFUIDisplay-Regular.ttf")
+        families = QFontDatabase.applicationFontFamilies(id)
+        self.setFont(QFont(families[0], 15))
 
         self.setWindowTitle('Cipher')
 
@@ -37,10 +42,24 @@ class MyWindow(QMainWindow, Ui_MainWindow):
         self.messageEdit.hide()
         self.messageLabel.hide()
 
+        self.radioCaesar.show()
+        self.radioVernam.show()
+        self.radioVigenere.show()
+
+        self.keyLabel.show()
+        self.keyEdit.show()
+
     def stega_clicked(self):
         self.radioCrypto.setChecked(False)
         self.messageEdit.show()
         self.messageLabel.show()
+
+        self.radioCaesar.hide()
+        self.radioVernam.hide()
+        self.radioVigenere.hide()
+
+        self.keyLabel.hide()
+        self.keyEdit.hide()
 
     def select_file(self):
         if self.radioStega.isChecked():
