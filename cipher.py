@@ -57,7 +57,6 @@ main_parser.add_argument('--cipher',
                          action=TextAction)
 
 main_parser.add_argument('--key',
-                         type=int,
                          action=TextAction)
 
 main_parser.add_argument('--message',
@@ -66,12 +65,10 @@ main_parser.add_argument('--message',
 
 main_parser.add_argument('--input',
                          type=str,
-                         required=True,
-                         action=SteganographAction)
+                         required=True)
 
 main_parser.add_argument('--output',
-                         type=str,
-                         action=SteganographAction)
+                         type=str)
 
 args = main_parser.parse_args()
 

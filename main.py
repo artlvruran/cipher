@@ -97,13 +97,31 @@ class MyWindow(QMainWindow, Ui_MainWindow):
 
     def encode(self):
         self.outputFileName = self.filenameEdit.text()
+
+        cipher: str
+        if self.radioCaesar.isChecked():
+            cipher = 'caesar'
+        elif self.radioVernam.isChecked():
+            cipher = 'vernam'
+        elif self.radioVigenere.isChecked():
+            cipher = 'vigenere'
+
         if self.fileType in ['txt']:
-            result = os.system(f"python cipher.py --mode=encode"
-                               f"                 --type=text"
-                               f"                 --cipher={'caesar'} "
-                               f"                 --key={5}"
-                               f"                 --input={self.inputFileName}"
-                               f"                 --output={self.outputFileName}")
+            if cipher == 'caesar':
+                result = os.system(f"python cipher.py --mode=encode"
+                                   f"                 --type=text"
+                                   f"                 --cipher='{cipher}' "
+                                   f"                 --key={self.keyEdit.text()}"
+                                   f"                 --input='{self.inputFileName}'"
+                                   f"                 --output='{self.outputFileName}'")
+            else:
+                result = os.system(f"python cipher.py --mode=encode"
+                                   f"                 --type=text"
+                                   f"                 --cipher='{cipher}' "
+                                   f"                 --key='{self.keyEdit.text()}'"
+                                   f"                 --input='{self.inputFileName}'"
+                                   f"                 --output='{self.outputFileName}'")
+
         elif self.fileType in ['png', 'jpg']:
             os.system(f"python cipher.py --mode=encode"
                       f"                 --type=image"
@@ -129,12 +147,20 @@ class MyWindow(QMainWindow, Ui_MainWindow):
             cipher = 'vigenere'
 
         if self.fileType in ['txt']:
-            result = os.popen(f"python cipher.py --mode=decode"
-                              f"                 --type=text"
-                              f"                 --cipher={cipher} "
-                              f"                 --key={5}"
-                              f"                 --input='{self.inputFileName}'"
-                              f"                 --output='{self.outputFileName}'").read()
+            if cipher == 'caesar:':
+                result = os.popen(f"python cipher.py --mode=decode"
+                                  f"                 --type=text"
+                                  f"                 --cipher={cipher}"
+                                  f"                 --key={self.keyEdit.text()}"
+                                  f"                 --input='{self.inputFileName}'"
+                                  f"                 --output='{self.outputFileName}'").read()
+            else:
+                result = os.popen(f"python cipher.py --mode=decode"
+                                  f"                 --type=text"
+                                  f"                 --cipher={cipher}"
+                                  f"                 --key='{self.keyEdit.text()}'"
+                                  f"                 --input='{self.inputFileName}'"
+                                  f"                 --output='{self.outputFileName}'").read()
             self.Output.setText(result)
         elif self.fileType in ['png', 'jpg']:
             result = os.popen(f"python cipher.py --mode=decode"

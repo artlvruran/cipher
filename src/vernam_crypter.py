@@ -15,9 +15,11 @@ class VernamCrypter(Crypter):
         if self.key == '':
             self.key = [chr(random.randint(0, 255)) for _ in range(len(text))]
         result = ''
+        count = 0
         for i in range(len(text)):
             if ord(text[i]) <= 255:
-                result += ord(text[i]) ^ ord(self.key[i])
+                result += chr(ord(text[i]) ^ ord(self.key[count % len(self.key)]))
+                count += 1
             else:
                 result += text[i]
         return result
