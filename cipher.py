@@ -13,11 +13,13 @@ main_parser = argparse.ArgumentParser()
 
 main_parser.add_argument('--mode',
                          choices=['encode', 'decode'],
-                         default='encode')
+                         default='encode',
+                         help='Enable encode/decode mode')
 
 tp = main_parser.add_argument('--type',
                               choices=['text', 'image', 'audio'],
-                              default='text')
+                              default='text',
+                              help='Choose file type')
 
 
 class TextAction(argparse.Action):
@@ -62,24 +64,30 @@ class SteganographAction(argparse.Action):
 main_parser.add_argument('--cipher',
                          choices=['caesar', 'vernam', 'vigenere'],
                          default='caesar',
-                         action=TextAction)
+                         action=TextAction,
+                         help='Select cipher. Requires text file type')
 
 main_parser.add_argument('--key',
-                         action=TextAction)
+                         action=TextAction,
+                         help='Cipher key')
 
 main_parser.add_argument('--hack',
-                         action=argparse.BooleanOptionalAction)
+                         action=argparse.BooleanOptionalAction,
+                         help='Automatically determine cipher key. Requires --cipher=caesar')
 
 main_parser.add_argument('--message',
                          type=str,
-                         action=SteganographAction)
+                         action=SteganographAction,
+                         help='Message to encrypt')
 
 main_parser.add_argument('--input',
                          type=str,
-                         required=True)
+                         required=True,
+                         help='input file path')
 
 main_parser.add_argument('--output',
-                         type=str)
+                         type=str,
+                         help='output file path')
 
 args = main_parser.parse_args()
 
