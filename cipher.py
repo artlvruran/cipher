@@ -1,7 +1,7 @@
 import argparse
 from src.text_file_decoder import *
 from src.crypter import *
-from src.caesar_crypter import CaesarCrypter
+from src.caesar_crypter import CaesarCrypter, CaesarHacker
 from src.vernam_crypter import VernamCrypter
 from src.vigenere_crypter import VigenereCrypter
 from src.constants import *
@@ -26,15 +26,23 @@ class TextAction(argparse.Action):
         if did_text != 'text':
             parser.error('Text type is required')
         else:
-            key = getattr(namespace, 'key', None)
-            if key is None:
-                setattr(namespace, self.dest, values)
-            elif isinstance(key, int) and getattr(namespace, 'cipher', '') != 'caesar':
-                parser.error('String key type is required')
-            elif not isinstance(key, int) and getattr(namespace, 'cipher', '') == 'caesar':
-                parser.error('Int key type is required')
+            to_hack = getattr(namespace, 'hack', None)
+            if to_hack is None:
+                key = getattr(namespace, 'key', None)
+                if key is None:
+                    setattr(namespace, self.dest, values)
+                elif isinstance(key, int) and getattr(namespace, 'cipher', '') != 'caesar':
+                    parser.error('String key type is required')
+                elif not isinstance(key, int) and getattr(namespace, 'cipher', '') == 'caesar':
+                    parser.error('Int key type is required')
+                else:
+                    setattr(namespace, self.dest, values)
             else:
-                setattr(namespace, self.dest, values)
+                cipher = getattr(namespace, 'cipher', None)
+                if cipher != 'caesar':
+                    parser.error('Only caesar hacking is available')
+                else:
+                    setattr(namespace, self.dest, values)
 
 
 class SteganographAction(argparse.Action):
@@ -59,6 +67,9 @@ main_parser.add_argument('--cipher',
 main_parser.add_argument('--key',
                          action=TextAction)
 
+main_parser.add_argument('--hack',
+                         action=argparse.BooleanOptionalAction)
+
 main_parser.add_argument('--message',
                          type=str,
                          action=SteganographAction)
@@ -75,7 +86,7 @@ args = main_parser.parse_args()
 if args.type == 'text':
     decoder = TextFileDecoder(args.input, args.output)
     if args.cipher == 'caesar':
-        decoder.crypter = CaesarCrypter(args.key)
+        decoder.crypter = CaesarCrypter(int(args.key) if args.key is not None else 0)
     elif args.cipher == 'vernam':
         decoder.crypter = VernamCrypter(args.key)
     elif args.cipher == 'vigenere':
@@ -83,7 +94,10 @@ if args.type == 'text':
     if args.mode == 'encode':
         decoder.encode()
     else:
-        decoder.decode()
+        if args.hack:
+            hacker = CaesarHacker()
+            decoder.crypter.offset = hacker.break_cipher(decoder.get_file_text())
+        print(decoder.decode())
 else:
     if args.type == 'audio':
         decoder = AudioSteganograph(args.input, args.output)

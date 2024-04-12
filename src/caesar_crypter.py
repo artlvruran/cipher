@@ -45,13 +45,13 @@ class CaesarHacker:
             [
                 abs(
                     text.count(letter) * 100 / len(text) - frequencies[letter]
-                    )
+                )
                 for letter in self.alphabet
             ]
         ) / len(self.alphabet)
 
     def break_cipher(self, text: str) -> int:
-        min_difference = float('inf')
+        min_difference = self.difference(text)
         encryption_key = 0
 
         for key in range(1, len(self.alphabet)):
@@ -64,10 +64,7 @@ class CaesarHacker:
                 encryption_key = key
         return encryption_key
 
-
-    def hack(self, text: str, key: int) -> str:
+    def hack(self, text: str) -> str:
         encryption_key = self.break_cipher(text)
-        crypter = CaesarCrypter(key, self.mode)
-        return crypter.encrypt(text)
-
-
+        crypter = CaesarCrypter(encryption_key)
+        return crypter.decrypt(text)

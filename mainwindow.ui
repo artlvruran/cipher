@@ -35,25 +35,15 @@
      <item row="6" column="2">
       <widget class="QPushButton" name="DecodeButton">
        <property name="styleSheet">
-        <string notr="true">
-QPushButton {
-  border-radius: 6px;
-  color: #3D3D3D;
-  background: #fff;
-  border: none;
-  border-radius: 15px;
-  font-weight: light;
-  padding: 6px 14px;
-}
-
-QPushButton:pressed {
-  background: #696969
-}</string>
+        <string notr="true"/>
        </property>
        <property name="text">
         <string>Decode</string>
        </property>
       </widget>
+     </item>
+     <item row="2" column="1" colspan="2">
+      <widget class="QLineEdit" name="keyEdit"/>
      </item>
      <item row="1" column="1">
       <widget class="QRadioButton" name="radioVigenere">
@@ -65,19 +55,6 @@ QPushButton:pressed {
        </property>
        <property name="text">
         <string>Vigenere</string>
-       </property>
-      </widget>
-     </item>
-     <item row="7" column="0" colspan="3">
-      <widget class="QLabel" name="Output">
-       <property name="maximumSize">
-        <size>
-         <width>16777215</width>
-         <height>500</height>
-        </size>
-       </property>
-       <property name="text">
-        <string/>
        </property>
       </widget>
      </item>
@@ -126,23 +103,17 @@ QPushButton:pressed {
         <bool>true</bool>
        </property>
        <property name="styleSheet">
-        <string notr="true">
-QPushButton {
-  border-radius: 6px;
-  color: #3D3D3D;
-  background: #fff;
-  border: none;
-  border-radius: 15px;
-  font-weight: light;
-  padding: 6px 14px;
-}
-
-QPushButton:pressed {
-  background: #696969
-}</string>
+        <string notr="true"/>
        </property>
        <property name="text">
         <string>Select file</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="keyLabel">
+       <property name="text">
+        <string>Enter the key</string>
        </property>
       </widget>
      </item>
@@ -179,20 +150,7 @@ QPushButton:pressed {
         <bool>true</bool>
        </property>
        <property name="styleSheet">
-        <string notr="true">
-QPushButton {
-  border-radius: 6px;
-  color: #3D3D3D;
-  background: #fff;
-  border: none;
-  border-radius: 15px;
-  font-weight: light;
-  padding: 6px 14px;
-}
-
-QPushButton:pressed {
-  background: #696969
-}</string>
+        <string notr="true"/>
        </property>
        <property name="text">
         <string>Encode</string>
@@ -202,13 +160,13 @@ QPushButton:pressed {
      <item row="5" column="1" colspan="2">
       <widget class="QLineEdit" name="filenameEdit"/>
      </item>
-     <item row="2" column="1" colspan="2">
-      <widget class="QLineEdit" name="keyEdit"/>
+     <item row="7" column="0" colspan="3">
+      <widget class="QTextBrowser" name="Output"/>
      </item>
-     <item row="2" column="0">
-      <widget class="QLabel" name="keyLabel">
+     <item row="6" column="1">
+      <widget class="QPushButton" name="hackButton">
        <property name="text">
-        <string>Enter the key</string>
+        <string>Hack</string>
        </property>
       </widget>
      </item>

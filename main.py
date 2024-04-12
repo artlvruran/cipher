@@ -1,8 +1,9 @@
+import pathlib
 import sys
 import os
 import subprocess
 from PyQt6.QtWidgets import *
-from PyQt6 import *
+from PyQt6 import QtCore, QtGui
 from PyQt6.QtGui import QFont, QFontDatabase
 from mainwindow import Ui_MainWindow
 from src.text_file_decoder import TextFileDecoder
@@ -18,10 +19,6 @@ class MyWindow(QMainWindow, Ui_MainWindow):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
-
-        id = QFontDatabase.addApplicationFont("static/SFUIDisplay-Regular.ttf")
-        families = QFontDatabase.applicationFontFamilies(id)
-        self.setFont(QFont(families[0], 15))
 
         self.setWindowTitle('Cipher')
 
@@ -50,6 +47,7 @@ class MyWindow(QMainWindow, Ui_MainWindow):
 
         self.EncodeButton.clicked.connect(self.encode)
         self.DecodeButton.clicked.connect(self.decode)
+        self.hackButton.clicked.connect(self.hack)
 
     def crypto_clicked(self):
         self.radioStega.setChecked(False)
@@ -76,16 +74,13 @@ class MyWindow(QMainWindow, Ui_MainWindow):
         self.keyEdit.hide()
 
     def caesar(self):
-        self.radioVernam.setChecked(False)
-        self.radioVigenere.setChecked(False)
+        self.hackButton.show()
 
     def vernam(self):
-        self.radioCaesar.setChecked(False)
-        self.radioVigenere.setChecked(False)
+        self.hackButton.hide()
 
     def vigenere(self):
-        self.radioVernam.setChecked(False)
-        self.radioCaesar.setChecked(False)
+        self.hackButton.hide()
 
     def select_file(self):
         if self.radioStega.isChecked():
@@ -108,14 +103,14 @@ class MyWindow(QMainWindow, Ui_MainWindow):
 
         if self.fileType in ['txt']:
             if cipher == 'caesar':
-                result = os.system(f"python cipher.py --mode=encode"
+                os.system(f"python cipher.py --mode=encode"
                                    f"                 --type=text"
                                    f"                 --cipher='{cipher}' "
                                    f"                 --key={self.keyEdit.text()}"
                                    f"                 --input='{self.inputFileName}'"
                                    f"                 --output='{self.outputFileName}'")
             else:
-                result = os.system(f"python cipher.py --mode=encode"
+                os.system(f"python cipher.py --mode=encode"
                                    f"                 --type=text"
                                    f"                 --cipher='{cipher}' "
                                    f"                 --key='{self.keyEdit.text()}'"
@@ -147,11 +142,11 @@ class MyWindow(QMainWindow, Ui_MainWindow):
             cipher = 'vigenere'
 
         if self.fileType in ['txt']:
-            if cipher == 'caesar:':
+            if cipher == 'caesar':
                 result = os.popen(f"python cipher.py --mode=decode"
                                   f"                 --type=text"
                                   f"                 --cipher={cipher}"
-                                  f"                 --key={self.keyEdit.text()}"
+                                  f"                 --key={int(self.keyEdit.text())}"
                                   f"                 --input='{self.inputFileName}'"
                                   f"                 --output='{self.outputFileName}'").read()
             else:
@@ -161,23 +156,40 @@ class MyWindow(QMainWindow, Ui_MainWindow):
                                   f"                 --key='{self.keyEdit.text()}'"
                                   f"                 --input='{self.inputFileName}'"
                                   f"                 --output='{self.outputFileName}'").read()
-            self.Output.setText(result)
+            self.Output.setPlainText(result)
         elif self.fileType in ['png', 'jpg']:
             result = os.popen(f"python cipher.py --mode=decode"
                               f"                 --type=image"
                               f"                 --input='{self.inputFileName}'"
                               f"                 --output='{self.outputFileName}'").read()
-            self.Output.setText(result)
+            self.Output.setPlainText(result)
         elif self.fileType in ['wav']:
             result = os.popen(f"python cipher.py --mode=decode"
                               f"                 --type=audio"
                               f"                 --input='{self.inputFileName}'"
                               f"                 --output='{self.outputFileName}'").read()
-            self.Output.setText(result)
+            self.Output.setPlainText(result)
+
+    def hack(self):
+        self.outputFileName = self.filenameEdit.text()
+        result = os.popen(f"python cipher.py --mode=decode"
+                          f"                 --type=text"
+                          f"                 --cipher=caesar"
+                          f"                 --input='{self.inputFileName}'"
+                          f"                 --output='{self.outputFileName}'"
+                          f"                 --hack").read()
+        self.Output.setPlainText(result)
 
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
+
+    app.setStyleSheet(pathlib.Path('static/style.qss').read_text())
+
+    id = QFontDatabase.addApplicationFont("static/SFUIDisplay-Regular.ttf")
+    families = QFontDatabase.applicationFontFamilies(id)
+    app.setFont(QFont(families[0], 15))
+
     ex = MyWindow()
     ex.show()
     sys.exit(app.exec())
