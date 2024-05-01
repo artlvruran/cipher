@@ -43,7 +43,7 @@ pip install -r requirements.txt
 ```
 Для консольного приложения:
 ```bash
-python3 ./src/cipher.py <параметры>
+python3 cipher.py <параметры>
 ```
 Для графического приложения:
 ```bash
