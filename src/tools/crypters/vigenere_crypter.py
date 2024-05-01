@@ -1,6 +1,5 @@
-from src.crypter import Crypter
-from abc import ABC, abstractmethod
 from src.constants import en_alphabet
+from src.tools.crypters.crypter import Crypter
 
 
 class VigenereCrypter(Crypter):

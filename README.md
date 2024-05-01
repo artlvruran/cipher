@@ -17,7 +17,7 @@
   - decode() - расшифровывает файл
 ## Работа с командной строкой
 ``` bash
-usage: cipher.py [-h] [--mode {encode,decode}] [--type {text,image,audio}] [--cipher {caesar,vernam,vigenere}] [--key KEY] [--hack | --no-hack] [--message MESSAGE] --input INPUT [--output OUTPUT]
+usage: ./src/cipher.py [-h] [--mode {encode,decode}] [--type {text,image,audio}] [--cipher {caesar,vernam,vigenere}] [--key KEY] [--hack | --no-hack] [--message MESSAGE] --input INPUT [--output OUTPUT]
 
 options:
   -h, --help            show this help message and exit
@@ -34,3 +34,18 @@ options:
   --output OUTPUT       output file path
 ```
 
+## Запуск
+```bash
+git clone https://github.com/artlvruran/cipher &&
+cd cipher &&
+git checkout development &&
+pip install -r requirements.txt
+```
+Для консольного приложения:
+```bash
+python3 ./src/cipher.py <параметры>
+```
+Для графического приложения:
+```bash
+python3 main.py
+```

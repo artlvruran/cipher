@@ -1,6 +1,7 @@
-from src.steganograph import Steganograph
-from src.constants import *
 import wave
+
+from src.constants import *
+from src.tools.steganographs.steganograph import Steganograph
 
 
 class AudioSteganograph(Steganograph):

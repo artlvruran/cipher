@@ -1,6 +1,5 @@
-from src.decoder_tool import DecoderTool
-from abc import ABC, abstractmethod
-from src.crypter import Crypter
+from src.tools.crypters.crypter import Crypter
+from src.tools.decoder_tool import DecoderTool
 
 
 class TextFileDecoder(DecoderTool):

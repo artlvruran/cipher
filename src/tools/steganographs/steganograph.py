@@ -1,6 +1,7 @@
-from abc import ABC, abstractmethod
+from abc import abstractmethod
+
 from src.constants import end_of_message
-from src.decoder_tool import DecoderTool
+from src.tools.decoder_tool import DecoderTool
 
 
 class Steganograph(DecoderTool):

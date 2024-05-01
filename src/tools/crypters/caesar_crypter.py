@@ -1,5 +1,5 @@
-from src.crypter import Crypter
 from src.constants import frequencies, en_alphabet, rus_alphabet
+from src.tools.crypters.crypter import Crypter
 
 
 class CaesarCrypter(Crypter):

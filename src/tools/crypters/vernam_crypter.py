@@ -1,8 +1,6 @@
-from src.crypter import Crypter
-from src.constants import en_alphabet
-from random import choice
-from src.steganograph import Steganograph
 import random
+
+from src.tools.crypters.crypter import Crypter
 
 
 class VernamCrypter(Crypter):

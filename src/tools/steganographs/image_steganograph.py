@@ -1,9 +1,7 @@
-import base64
-
-from src.steganograph import Steganograph
 from PIL import Image, ImageDraw
-from abc import ABC, abstractmethod
+
 from src.constants import end_of_message
+from src.tools.steganographs.steganograph import Steganograph
 
 
 class ImageSteganograph(Steganograph):
