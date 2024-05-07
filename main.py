@@ -99,14 +99,14 @@ class MyWindow(QMainWindow, Ui_MainWindow):
 
         if self.fileType in ['txt']:
             if cipher == 'caesar':
-                os.system(f"python ./src/cipher.py --mode=encode"
+                os.system(f"python cipher.py --mode=encode"
                           f"                 --type=text"
                           f"                 --cipher='{cipher}' "
                           f"                 --key={self.keyEdit.text()}"
                           f"                 --input='{self.inputFileName}'"
                           f"                 --output='{self.outputFileName}'")
             else:
-                os.system(f"python ./src/cipher.py --mode=encode"
+                os.system(f"python cipher.py --mode=encode"
                           f"                 --type=text"
                           f"                 --cipher='{cipher}' "
                           f"                 --key='{self.keyEdit.text()}'"
@@ -114,13 +114,13 @@ class MyWindow(QMainWindow, Ui_MainWindow):
                           f"                 --output='{self.outputFileName}'")
 
         elif self.fileType in ['png', 'jpg']:
-            os.system(f"python ./src/cipher.py --mode=encode"
+            os.system(f"python cipher.py --mode=encode"
                       f"                 --type=image"
                       f"                 --input='{self.inputFileName}'"
                       f"                 --output='{self.outputFileName}'"
                       f"                 --message='{self.messageEdit.text()}'")
         elif self.fileType in ['wav']:
-            os.system(f"python ./src/cipher.py --mode=encode"
+            os.system(f"python cipher.py --mode=encode"
                       f"                 --type=audio"
                       f"                 --input='{self.inputFileName}'"
                       f"                 --output='{self.outputFileName}'"
@@ -139,14 +139,14 @@ class MyWindow(QMainWindow, Ui_MainWindow):
 
         if self.fileType in ['txt']:
             if cipher == 'caesar':
-                result = os.popen(f"python ./src/cipher.py --mode=decode"
+                result = os.popen(f"python cipher.py --mode=decode"
                                   f"                 --type=text"
                                   f"                 --cipher={cipher}"
                                   f"                 --key={int(self.keyEdit.text())}"
                                   f"                 --input='{self.inputFileName}'"
                                   f"                 --output='{self.outputFileName}'").read()
             else:
-                result = os.popen(f"python ./src/cipher.py --mode=decode"
+                result = os.popen(f"python cipher.py --mode=decode"
                                   f"                 --type=text"
                                   f"                 --cipher={cipher}"
                                   f"                 --key='{self.keyEdit.text()}'"
@@ -154,13 +154,13 @@ class MyWindow(QMainWindow, Ui_MainWindow):
                                   f"                 --output='{self.outputFileName}'").read()
             self.Output.setPlainText(result)
         elif self.fileType in ['png', 'jpg']:
-            result = os.popen(f"python ./src/cipher.py --mode=decode"
+            result = os.popen(f"python cipher.py --mode=decode"
                               f"                 --type=image"
                               f"                 --input='{self.inputFileName}'"
                               f"                 --output='{self.outputFileName}'").read()
             self.Output.setPlainText(result)
         elif self.fileType in ['wav']:
-            result = os.popen(f"python ./src/cipher.py --mode=decode"
+            result = os.popen(f"python cipher.py --mode=decode"
                               f"                 --type=audio"
                               f"                 --input='{self.inputFileName}'"
                               f"                 --output='{self.outputFileName}'").read()
@@ -168,7 +168,7 @@ class MyWindow(QMainWindow, Ui_MainWindow):
 
     def hack(self):
         self.outputFileName = self.filenameEdit.text()
-        result = os.popen(f"python ./src/cipher.py --mode=decode"
+        result = os.popen(f"python cipher.py --mode=decode"
                           f"                 --type=text"
                           f"                 --cipher=caesar"
                           f"                 --input='{self.inputFileName}'"
